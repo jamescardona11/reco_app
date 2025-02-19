@@ -1,1 +1,33 @@
 include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude: [build/**, lib/**.g.dart, lib/**.freezed.dart]
+
+  language:
+    strict-raw-types: false
+
+  errors:
+    await_only_futures: error
+    avoid_void_async: error
+    unnecessary_await_in_return: error
+    must_be_immutable: error
+    must_call_super: error
+
+linter:
+  rules:
+    always_put_required_named_parameters_first: false
+    avoid_relative_lib_imports: true
+    avoid_renaming_method_parameters: false
+    avoid_void_async: true
+    await_only_futures: true
+    cancel_subscriptions: true
+    camel_case_types: true
+    constant_identifier_names: false
+    prefer_final_locals: true
+    prefer_single_quotes: true
+    public_member_api_docs: false
+    sort_constructors_first: false
+    unnecessary_await_in_return: true
+    unawaited_futures: true
+    require_trailing_commas: true
+    avoid_unnecessary_containers: true
