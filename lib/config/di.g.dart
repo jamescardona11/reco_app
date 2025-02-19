@@ -35,5 +35,22 @@ final appDatabaseProvider = Provider<AppDatabase>.internal(
 );
 
 typedef AppDatabaseRef = ProviderRef<AppDatabase>;
+String _$audioRecorderRepositoryHash() =>
+    r'1765b79c19cda5196add2654177e0ffaebc0e7a9';
+
+/// See also [audioRecorderRepository].
+@ProviderFor(audioRecorderRepository)
+final audioRecorderRepositoryProvider =
+    Provider<AudioRecorderRepository>.internal(
+  audioRecorderRepository,
+  name: r'audioRecorderRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$audioRecorderRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AudioRecorderRepositoryRef = ProviderRef<AudioRecorderRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
