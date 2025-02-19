@@ -1,19 +1,34 @@
-name: reco_app
-description: "A new Flutter project."
+name: audio_recorder_app
+description: A Flutter audio recorder application.
 publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.3
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
+  envied: ^0.3.0+3
+  uuid: ^3.0.7
+  flutter_riverpod: ^2.4.9
+  record: ^5.0.4
+  audioplayers: ^5.2.1
+  path_provider: ^2.1.2
+  permission_handler: ^11.2.0
+  intl: ^0.20.2
+  riverpod_annotation: ^2.3.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^2.0.0
+  build_runner: ^2.4.8
+  riverpod_generator: ^2.3.5
+  custom_lint: ^0.5.11
+  riverpod_lint: ^2.3.7
+  envied_generator: ^0.3.0+3
 
 flutter:
   uses-material-design: true
