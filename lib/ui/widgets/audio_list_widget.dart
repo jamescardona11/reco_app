@@ -9,13 +9,15 @@ class AudioListWidget extends ConsumerWidget {
   const AudioListWidget({
     super.key,
     required this.recordings,
+    this.showUploadingState = false,
   });
 
   final List<AudioRecord> recordings;
-
+  final bool showUploadingState;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPlayingAudio = ref.watch(appPlayerProvider);
+    final uploaderState = ref.watch(appUploaderProvider);
 
     if (recordings.isEmpty) {
       return Center(
@@ -55,11 +57,13 @@ class AudioListWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         final record = recordings[index];
         final isPlaying = currentPlayingAudio?.id == record.id;
+        final uploadingState = showUploadingState ? uploaderState.audioRecords[record.id] : null;
 
         return AudioItemWidget(
           record: record,
           isPlaying: isPlaying,
           index: index,
+          uploadingState: uploadingState?.uploadingState,
           onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record),
           onUpload: () => ref.read(appUploaderProvider.notifier).upload(record),
         );

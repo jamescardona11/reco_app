@@ -23,7 +23,5 @@ AudioRecorderRepository audioRecorderRepository(ref) {
 
 @Riverpod(keepAlive: true)
 CloudUploaderRepository cloudUploaderRepository(ref) {
-  final cloudUploaderRepository = CloudUploaderRepositoryImpl();
-  cloudUploaderRepository.init();
-  return cloudUploaderRepository;
+  return CloudUploaderRepositoryImpl();
 }

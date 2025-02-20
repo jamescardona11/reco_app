@@ -1,4 +1,5 @@
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
+import 'package:audio_recorder_app/domain/models/uploading_state.dart';
 import 'package:audio_recorder_app/domain/result/app_error/app_error.dart';
 
 class AppUploaderState {
@@ -49,10 +50,4 @@ class AudioRecordUploadState {
       error: error,
     );
   }
-}
-
-enum UploadingState {
-  uploading,
-  error,
-  completed,
 }

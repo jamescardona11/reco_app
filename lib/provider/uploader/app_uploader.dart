@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:audio_recorder_app/config/di.dart';
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
+import 'package:audio_recorder_app/domain/models/uploading_state.dart';
+import 'package:audio_recorder_app/domain/types/json_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'app_uploader_state.dart';
@@ -15,6 +17,11 @@ class AppUploader extends _$AppUploader {
     return AppUploaderState();
   }
 
+  Future<void> init(JsonType credentials) async {
+    final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
+    await cloudRepository.init(credentials);
+  }
+
   Future<void> upload(AudioRecord audioRecord) async {
     if (state.isCurrentUploading(audioRecord.id)) return;
 
@@ -26,6 +33,7 @@ class AppUploader extends _$AppUploader {
           uploadingState: UploadingState.uploading,
         ),
       },
+      isUploadingInProgress: true,
     );
 
     final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
@@ -36,6 +44,17 @@ class AppUploader extends _$AppUploader {
     if (response.isOk) {
       audioRecord = audioRecord.copyWith(fileUrl: response.asOk.value);
       await appDatabase.upsert(id: audioRecord.id, data: audioRecord.toJson());
+
+      state = state.copyWith(
+        audioRecords: {
+          ...state.audioRecords,
+          audioRecord.id: AudioRecordUploadState(
+            audioRecord: audioRecord,
+            uploadingState: UploadingState.completed,
+          ),
+        },
+        isUploadingInProgress: false,
+      );
     } else {
       state = state.copyWith(
         audioRecords: {
@@ -46,19 +65,8 @@ class AppUploader extends _$AppUploader {
             error: response.appError,
           ),
         },
+        isUploadingInProgress: false,
       );
-
-      return;
     }
-
-    state = state.copyWith(
-      audioRecords: {
-        ...state.audioRecords,
-        audioRecord.id: AudioRecordUploadState(
-          audioRecord: audioRecord,
-          uploadingState: UploadingState.completed,
-        ),
-      },
-    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
+import 'package:audio_recorder_app/domain/models/uploading_state.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,6 +7,7 @@ class AudioItemWidget extends StatelessWidget {
   const AudioItemWidget({
     super.key,
     required this.record,
+    this.uploadingState,
     required this.isPlaying,
     required this.onPlay,
     required this.index,
@@ -14,6 +16,7 @@ class AudioItemWidget extends StatelessWidget {
   });
 
   final AudioRecord record;
+  final UploadingState? uploadingState;
   final int index;
   final bool isPlaying;
   final VoidCallback onPlay;
@@ -93,30 +96,43 @@ class AudioItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            // Action Buttons
-            Row(
-              children: [
-                if (record.fileUrl == null)
-                  IconButton(
-                    icon: Icon(
-                      Icons.upload_rounded,
-                      color: Colors.blue.shade700,
+            if (uploadingState != null) ...[
+              if (uploadingState!.isUploading) const CircularProgressIndicator(),
+              if (uploadingState!.isError)
+                IconButton(
+                  icon: const Icon(Icons.error_outline_rounded),
+                  onPressed: onUpload,
+                ),
+              if (uploadingState!.isCompleted)
+                IconButton(
+                  icon: const Icon(Icons.check_circle_rounded),
+                  onPressed: onUpload,
+                ),
+            ] else ...[
+              Row(
+                children: [
+                  if (record.fileUrl == null)
+                    IconButton(
+                      icon: Icon(
+                        Icons.upload_rounded,
+                        color: Colors.blue.shade700,
+                      ),
+                      onPressed: onUpload,
+                      tooltip: 'Upload recording',
+                    )
+                  else
+                    IconButton(
+                      icon: Icon(
+                        Icons.download_rounded,
+                        color: Colors.blue.shade700,
+                      ),
+                      onPressed: onDownload,
+                      tooltip: 'Download recording',
                     ),
-                    onPressed: onUpload,
-                    tooltip: 'Upload recording',
-                  )
-                else
-                  IconButton(
-                    icon: Icon(
-                      Icons.download_rounded,
-                      color: Colors.blue.shade700,
-                    ),
-                    onPressed: onDownload,
-                    tooltip: 'Download recording',
-                  ),
-                const SizedBox(width: 8),
-              ],
-            ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+            ],
           ],
         ),
       ),

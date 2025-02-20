@@ -1,16 +1,37 @@
+import 'dart:convert';
+
 import 'package:audio_recorder_app/provider/recorder/app_recorder.dart';
+import 'package:audio_recorder_app/provider/uploader/app_uploader.dart';
 import 'package:audio_recorder_app/ui/widgets/audio_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'components/app_bar_widget.dart';
 import 'components/playing_from.dart';
 
-class AudioRecorderView extends ConsumerWidget {
+class AudioRecorderView extends ConsumerStatefulWidget {
   const AudioRecorderView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AudioRecorderView> createState() => _AudioRecorderViewState();
+}
+
+class _AudioRecorderViewState extends ConsumerState<AudioRecorderView> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      rootBundle.loadString('credentials/credentials.json').then((json) {
+        final credentials = jsonDecode(json);
+        ref.read(appUploaderProvider.notifier).init(credentials);
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final recorderState = ref.watch(appRecorderProvider);
 
     return Scaffold(

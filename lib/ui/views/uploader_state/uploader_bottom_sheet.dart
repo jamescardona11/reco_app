@@ -77,6 +77,7 @@ class UploaderBottomSheet extends ConsumerWidget {
             Expanded(
               child: AudioListWidget(
                 recordings: audioRecords,
+                showUploadingState: true,
               ),
             ),
 

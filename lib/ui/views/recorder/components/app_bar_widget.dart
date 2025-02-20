@@ -33,16 +33,29 @@ class RecorderAppBar extends ConsumerWidget implements PreferredSizeWidget {
               Positioned(
                 right: 8,
                 top: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const SizedBox(
-                    width: 8,
-                    height: 8,
-                  ),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(seconds: 1),
+                  builder: (context, value, child) {
+                    return Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.green.withOpacity(0.5),
+                            spreadRadius: value * 2,
+                            blurRadius: value * 3,
+                          ),
+                        ],
+                      ),
+                      child: const SizedBox(
+                        width: 4,
+                        height: 4,
+                      ),
+                    );
+                  },
                 ),
               ),
           ],
