@@ -134,7 +134,7 @@ flutter run
 
 ![Img2](img2.jpeg)
 
-![Img3](img3.png)
+![Img3](img3.PNG)
 
 
 Also you have a video of the app in action: [Video.MP4](video.mp4)
