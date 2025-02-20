@@ -20,7 +20,10 @@ dependencies:
   intl: ^0.20.2
   riverpod_annotation: ^2.6.1
   rxdart: ^0.28.0
-  dio: ^5.8.0+1
+  googleapis: 13.2.0
+  googleapis_auth: 1.6.0
+  gcloud: 0.8.18
+  mime: ^2.0.0
 
 dev_dependencies:
   flutter_test:
