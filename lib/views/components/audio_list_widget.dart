@@ -1,5 +1,6 @@
 import 'package:audio_recorder_app/provider/player/app_player.dart';
 import 'package:audio_recorder_app/provider/recorder/app_recorder.dart';
+import 'package:audio_recorder_app/provider/uploader/app_uploader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -20,26 +21,44 @@ class AudioListWidget extends ConsumerWidget {
         final record = recorderState.recordings[index];
         final isPlaying = currentPlayingPath == record.filePath;
 
-        return ListTile(
-          leading: Icon(
-            isPlaying ? Icons.pause_circle : Icons.play_circle,
-            color: isPlaying ? Colors.blue : Colors.grey,
-          ),
-          title: Text(
-            'Recording ${index + 1}',
-          ),
-          subtitle: Text(
-            DateFormat('yyyy-MM-dd').format(record.createdAt),
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              ref.read(appRecorderProvider.notifier).deleteRecording(record.id);
-            },
-          ),
+        return InkWell(
           onTap: () {
             ref.read(appPlayerProvider.notifier).playAudio(record.filePath);
           },
+          child: Row(
+            children: [
+              Icon(
+                isPlaying ? Icons.pause_circle : Icons.play_circle,
+                color: isPlaying ? Colors.blue : Colors.grey,
+              ),
+              Column(
+                children: [
+                  Text(
+                    'Recording ${index + 1}',
+                  ),
+                  Text(
+                    DateFormat('yyyy-MM-dd').format(record.createdAt),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      ref.read(appRecorderProvider.notifier).deleteRecording(record.id);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.upload),
+                    onPressed: () {
+                      ref.read(appUploaderProvider.notifier).upload(record);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );
