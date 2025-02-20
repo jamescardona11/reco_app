@@ -6,12 +6,12 @@ part of 'app_player.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appPlayerHash() => r'ee87ec36a031da9d05ca90cecc58b81a12b081b2';
+String _$appPlayerHash() => r'dc4aca6bb7bb725ae9422772376bb5834a66f346';
 
 /// See also [AppPlayer].
 @ProviderFor(AppPlayer)
 final appPlayerProvider =
-    AutoDisposeNotifierProvider<AppPlayer, String?>.internal(
+    AutoDisposeNotifierProvider<AppPlayer, AudioRecord?>.internal(
   AppPlayer.new,
   name: r'appPlayerProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final appPlayerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AppPlayer = AutoDisposeNotifier<String?>;
+typedef _$AppPlayer = AutoDisposeNotifier<AudioRecord?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

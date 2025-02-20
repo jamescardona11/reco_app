@@ -15,7 +15,7 @@ class AudioListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentlyPlaying = ref.watch(appPlayerProvider);
+    final currentPlayingAudio = ref.watch(appPlayerProvider);
 
     if (recordings.isEmpty) {
       return Center(
@@ -54,13 +54,13 @@ class AudioListWidget extends ConsumerWidget {
       itemCount: recordings.length,
       itemBuilder: (context, index) {
         final record = recordings[index];
-        final isPlaying = currentlyPlaying == record.filePath;
+        final isPlaying = currentPlayingAudio?.id == record.id;
 
         return AudioItemWidget(
           record: record,
           isPlaying: isPlaying,
           index: index,
-          onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record.filePath),
+          onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record),
           onUpload: () => ref.read(appUploaderProvider.notifier).upload(record),
         );
       },

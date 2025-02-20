@@ -10,6 +10,7 @@ class AudioItemWidget extends StatelessWidget {
     required this.onPlay,
     required this.index,
     this.onUpload,
+    this.onDownload,
   });
 
   final AudioRecord record;
@@ -17,6 +18,7 @@ class AudioItemWidget extends StatelessWidget {
   final bool isPlaying;
   final VoidCallback onPlay;
   final VoidCallback? onUpload;
+  final VoidCallback? onDownload;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class AudioItemWidget extends StatelessWidget {
       onTap: onPlay,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -93,23 +96,25 @@ class AudioItemWidget extends StatelessWidget {
             // Action Buttons
             Row(
               children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.upload_rounded,
-                    color: Colors.blue.shade700,
+                if (record.fileUrl == null)
+                  IconButton(
+                    icon: Icon(
+                      Icons.upload_rounded,
+                      color: Colors.blue.shade700,
+                    ),
+                    onPressed: onUpload,
+                    tooltip: 'Upload recording',
+                  )
+                else
+                  IconButton(
+                    icon: Icon(
+                      Icons.download_rounded,
+                      color: Colors.blue.shade700,
+                    ),
+                    onPressed: onDownload,
+                    tooltip: 'Download recording',
                   ),
-                  onPressed: onUpload,
-                  tooltip: 'Upload recording',
-                ),
                 const SizedBox(width: 8),
-                IconButton(
-                  icon: Icon(
-                    Icons.delete_outline_rounded,
-                    color: Colors.red.shade400,
-                  ),
-                  onPressed: () {},
-                  tooltip: 'Delete recording',
-                ),
               ],
             ),
           ],

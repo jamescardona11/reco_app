@@ -1,9 +1,10 @@
 import 'package:audio_recorder_app/provider/recorder/app_recorder.dart';
+import 'package:audio_recorder_app/ui/widgets/audio_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../widgets/audio_list_widget.dart';
 import 'components/app_bar_widget.dart';
+import 'components/playing_from.dart';
 
 class AudioRecorderView extends ConsumerWidget {
   const AudioRecorderView({super.key});
@@ -16,6 +17,7 @@ class AudioRecorderView extends ConsumerWidget {
       appBar: const RecorderAppBar(),
       body: Column(
         children: [
+          const PlayingFrom(),
           if (recorderState.isRecording)
             Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
