@@ -5,5 +5,7 @@ import 'package:audio_recorder_app/domain/types/json_type.dart';
 abstract class CloudUploaderRepository {
   Future<void> init(JsonType credentials);
 
-  Future<AppResult<String>> upload(AudioRecord audioRecord);
+  Future<AppResult<AudioRecord>> upload(AudioRecord audioRecord);
+
+  Future<AppResult<AudioRecord>> download(AudioRecord audioRecord);
 }
