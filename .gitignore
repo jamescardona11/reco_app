@@ -64,8 +64,7 @@ macos/**
 linux/**
 windows/**
 web/**
-android/**
-ios/**
+
 
 credentials.json
 
