@@ -59,23 +59,23 @@ lib/
 - **Riverpod**: State management with code generation
 
 ### Audio Processing
-- **record**: ^5.0.4 (Audio recording with high-quality settings)
-- **audioplayers**: ^5.2.1 (Advanced audio playback features)
+- **record**:  (Audio recording with high-quality settings)
+- **audioplayers**:  (Advanced audio playback features)
 
 ### Storage & Permissions
-- **path_provider**: ^2.1.2 (File system management)
-- **permission_handler**: ^11.2.0 (Runtime permissions)
+- **path_provider**:  (File system management)
+- **permission_handler**:  (Runtime permissions)
 
 ### Utilities
-- **intl**: ^0.20.2 (Internationalization)
-- **uuid**: ^3.0.7 (Unique identifiers)
+- **intl**:  (Internationalization)
+- **uuid**:  (Unique identifiers)
 
 
 ### Remote Operations
-- **googleapis**: ^13.2.0 (Google Cloud API client)
-- **googleapis_auth**: ^1.6.0 (Google Cloud API authentication)
-- **gcloud**: ^0.8.18 (Google Cloud SDK)
-- **http**: ^1.3.0 (HTTP client)
+- **googleapis**:  (Google Cloud API client)
+- **googleapis_auth**: (Google Cloud API authentication)
+- **gcloud**:  (Google Cloud SDK)
+- **http**:  (HTTP client)
 
 ## 🚀 Getting Started
 
@@ -125,3 +125,16 @@ flutter run
 ### Misc
 - You can see a message if is recording
 - You can see a message what is the source of the audio file
+
+
+
+### References Images
+
+![Img1](img1.jpeg)
+
+![Img2](img2.jpeg)
+
+![Img3](img3.png)
+
+
+Also you have a video of the app in action: [Video.MP4](video.mp4)
