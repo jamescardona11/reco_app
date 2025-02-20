@@ -36,7 +36,7 @@ final appDatabaseProvider = Provider<AppDatabase>.internal(
 
 typedef AppDatabaseRef = ProviderRef<AppDatabase>;
 String _$audioRecorderRepositoryHash() =>
-    r'1765b79c19cda5196add2654177e0ffaebc0e7a9';
+    r'd741632ee1aa0e4d855a6481f2d5ff01d9e12fd9';
 
 /// See also [audioRecorderRepository].
 @ProviderFor(audioRecorderRepository)
