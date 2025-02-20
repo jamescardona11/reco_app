@@ -120,7 +120,7 @@ class AudioItemWidget extends StatelessWidget {
                       onPressed: onUpload,
                       tooltip: 'Upload recording',
                     )
-                  else
+                  else if (record.downloadFilePath == null)
                     IconButton(
                       icon: Icon(
                         Icons.download_rounded,
@@ -128,6 +128,11 @@ class AudioItemWidget extends StatelessWidget {
                       ),
                       onPressed: onDownload,
                       tooltip: 'Download recording',
+                    )
+                  else
+                    Icon(
+                      Icons.check,
+                      color: Colors.blue.shade700,
                     ),
                   const SizedBox(width: 8),
                 ],

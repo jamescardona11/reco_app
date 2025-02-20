@@ -13,6 +13,10 @@ final class UploadingDataError extends AppError {
   const UploadingDataError() : super('Uploading Data Error');
 }
 
+final class DownloadingDataError extends AppError {
+  const DownloadingDataError() : super('Downloading Data Error');
+}
+
 final class UpsertError extends AppError {
   const UpsertError() : super('Upsert Error');
 }

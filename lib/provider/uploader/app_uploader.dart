@@ -42,7 +42,7 @@ class AppUploader extends _$AppUploader {
     final response = await cloudRepository.upload(audioRecord);
 
     if (response.isOk) {
-      audioRecord = audioRecord.copyWith(fileUrl: response.asOk.value);
+      final audioRecord = response.asOk.value;
       await appDatabase.upsert(id: audioRecord.id, data: audioRecord.toJson());
 
       state = state.copyWith(
@@ -67,6 +67,20 @@ class AppUploader extends _$AppUploader {
         },
         isUploadingInProgress: false,
       );
+    }
+  }
+
+  Future<void> download(AudioRecord audioRecord) async {
+    if (audioRecord.downloadUrl == null) return;
+
+    final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
+    final response = await cloudRepository.download(audioRecord);
+
+    if (response.isOk) {
+      final appDatabase = ref.read(appDatabaseProvider);
+
+      final audioRecord = response.asOk.value;
+      await appDatabase.upsert(id: audioRecord.id, data: audioRecord.toJson());
     }
   }
 }

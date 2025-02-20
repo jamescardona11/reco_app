@@ -66,6 +66,7 @@ class AudioListWidget extends ConsumerWidget {
           uploadingState: uploadingState?.uploadingState,
           onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record),
           onUpload: () => ref.read(appUploaderProvider.notifier).upload(record),
+          onDownload: () => ref.read(appUploaderProvider.notifier).download(record),
         );
       },
     );

@@ -51,7 +51,7 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
       if (exists) {
         final newRecord = AudioRecord(
           id: _currentId!,
-          filePath: _pathFromCurrentId,
+          originalFilePath: _pathFromCurrentId,
           createdAt: DateTime.now(),
         );
 

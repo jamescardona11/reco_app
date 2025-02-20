@@ -38,7 +38,7 @@ final audioRecorderRepositoryProvider =
 
 typedef AudioRecorderRepositoryRef = ProviderRef<AudioRecorderRepository>;
 String _$cloudUploaderRepositoryHash() =>
-    r'd7b7076a33ee248800f14e2742f64922a7e27657';
+    r'30c3301e796de268115997f65c65cf53f7f18b94';
 
 /// See also [cloudUploaderRepository].
 @ProviderFor(cloudUploaderRepository)
