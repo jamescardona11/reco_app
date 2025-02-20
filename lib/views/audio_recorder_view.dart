@@ -1,8 +1,8 @@
-import 'package:audio_recorder_app/provider/player/app_player.dart';
 import 'package:audio_recorder_app/provider/recorder/app_recorder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+
+import 'components/audio_list_widget.dart';
 
 class AudioRecorderView extends ConsumerWidget {
   const AudioRecorderView({super.key});
@@ -10,7 +10,6 @@ class AudioRecorderView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final recorderState = ref.watch(appRecorderProvider);
-    final currentPlayingPath = ref.watch(appPlayerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,35 +34,7 @@ class AudioRecorderView extends ConsumerWidget {
                 ? const Center(
                     child: Text('No recordings yet'),
                   )
-                : ListView.builder(
-                    itemCount: recorderState.recordings.length,
-                    itemBuilder: (context, index) {
-                      final record = recorderState.recordings[index];
-                      final isPlaying = currentPlayingPath == record.filePath;
-
-                      return ListTile(
-                        leading: Icon(
-                          isPlaying ? Icons.pause_circle : Icons.play_circle,
-                          color: isPlaying ? Colors.blue : Colors.grey,
-                        ),
-                        title: Text(
-                          'Recording ${index + 1}',
-                        ),
-                        subtitle: Text(
-                          DateFormat('yyyy-MM-dd').format(record.createdAt),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            ref.read(appRecorderProvider.notifier).deleteRecording(record.id);
-                          },
-                        ),
-                        onTap: () {
-                          ref.read(appPlayerProvider.notifier).playAudio(record.filePath);
-                        },
-                      );
-                    },
-                  ),
+                : const AudioListWidget(),
           ),
         ],
       ),
