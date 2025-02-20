@@ -17,10 +17,7 @@ class AppRecorder extends _$AppRecorder {
   AppRecorderState build() {
     _init();
 
-    ref.onDispose(() {
-      _isRecordingSubscription?.cancel();
-      _recordingItemsSubscription?.cancel();
-    });
+    ref.onDispose(_dispose);
 
     return AppRecorderState();
   }
@@ -57,5 +54,13 @@ class AppRecorder extends _$AppRecorder {
   Future<void> deleteRecording(String id) async {
     final repository = ref.read(audioRecorderRepositoryProvider);
     await repository.deleteRecording(id);
+  }
+
+  void _dispose() {
+    final repository = ref.read(audioRecorderRepositoryProvider);
+    repository.dispose();
+
+    _isRecordingSubscription?.cancel();
+    _recordingItemsSubscription?.cancel();
   }
 }

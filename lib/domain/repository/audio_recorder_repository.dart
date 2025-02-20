@@ -15,4 +15,6 @@ abstract class AudioRecorderRepository {
   Stream<AudioRecorderState> recordingState();
 
   Stream<List<AudioRecord>> watchRecordings();
+
+  void dispose();
 }

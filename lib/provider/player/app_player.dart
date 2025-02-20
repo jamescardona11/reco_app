@@ -13,7 +13,7 @@ class AppPlayer extends _$AppPlayer {
   @override
   String? build() {
     _initSubscription();
-    _autoDispose();
+    ref.onDispose(_dispose);
 
     return null;
   }
@@ -35,10 +35,8 @@ class AppPlayer extends _$AppPlayer {
     });
   }
 
-  void _autoDispose() {
-    ref.onDispose(() {
-      _subscription?.cancel();
-      _audioPlayer.dispose();
-    });
+  void _dispose() {
+    _subscription?.cancel();
+    _audioPlayer.dispose();
   }
 }

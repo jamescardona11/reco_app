@@ -82,4 +82,10 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
   String get _pathFromCurrentId {
     return '$_pathFile$_currentId.m4a';
   }
+
+  @override
+  void dispose() {
+    _recordingState.close();
+    _audioRecorder.dispose();
+  }
 }
