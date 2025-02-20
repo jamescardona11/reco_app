@@ -6,21 +6,6 @@ part of 'di.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appHttpClientHash() => r'e33edc21a2a0933387bd0700c56b64f2f0526930';
-
-/// See also [appHttpClient].
-@ProviderFor(appHttpClient)
-final appHttpClientProvider = Provider<AppHttpClient>.internal(
-  appHttpClient,
-  name: r'appHttpClientProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$appHttpClientHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AppHttpClientRef = ProviderRef<AppHttpClient>;
 String _$appDatabaseHash() => r'0c40af74d511e2169de8fc0818ce54dd13ebdbd9';
 
 /// See also [appDatabase].
@@ -52,5 +37,22 @@ final audioRecorderRepositoryProvider =
 );
 
 typedef AudioRecorderRepositoryRef = ProviderRef<AudioRecorderRepository>;
+String _$cloudUploaderRepositoryHash() =>
+    r'7bd96ad4bc40c31164c3db092bc569c6f758a912';
+
+/// See also [cloudUploaderRepository].
+@ProviderFor(cloudUploaderRepository)
+final cloudUploaderRepositoryProvider =
+    Provider<CloudUploaderRepository>.internal(
+  cloudUploaderRepository,
+  name: r'cloudUploaderRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$cloudUploaderRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CloudUploaderRepositoryRef = ProviderRef<CloudUploaderRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
