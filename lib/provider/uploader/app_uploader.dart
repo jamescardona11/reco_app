@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audio_recorder_app/config/di.dart';
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,9 +16,20 @@ class AppUploader extends _$AppUploader {
   }
 
   Future<void> upload(AudioRecord audioRecord) async {
+    if (state.isCurrentUploading(audioRecord.id)) return;
+
+    state = state.copyWith(
+      audioRecords: {
+        ...state.audioRecords,
+        audioRecord.id: AudioRecordUploadState(
+          audioRecord: audioRecord,
+          uploadingState: UploadingState.uploading,
+        ),
+      },
+    );
+
     final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
     final appDatabase = ref.read(appDatabaseProvider);
-    state = state.copyWith(isUploading: true);
 
     final response = await cloudRepository.upload(audioRecord);
 
@@ -24,8 +37,28 @@ class AppUploader extends _$AppUploader {
       audioRecord = audioRecord.copyWith(fileUrl: response.asOk.value);
       await appDatabase.upsert(id: audioRecord.id, data: audioRecord.toJson());
     } else {
-      state = state.copyWith(error: response.appError);
+      state = state.copyWith(
+        audioRecords: {
+          ...state.audioRecords,
+          audioRecord.id: AudioRecordUploadState(
+            audioRecord: audioRecord,
+            uploadingState: UploadingState.error,
+            error: response.appError,
+          ),
+        },
+      );
+
+      return;
     }
-    state = state.copyWith(isUploading: false);
+
+    state = state.copyWith(
+      audioRecords: {
+        ...state.audioRecords,
+        audioRecord.id: AudioRecordUploadState(
+          audioRecord: audioRecord,
+          uploadingState: UploadingState.completed,
+        ),
+      },
+    );
   }
 }

@@ -6,7 +6,7 @@ part of 'app_uploader.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appUploaderHash() => r'fa5b41604727cfeb57d8994e419c1af13256ed5c';
+String _$appUploaderHash() => r'e74b712c27fae0ba6b247c2c054c0fec80c897c3';
 
 /// See also [AppUploader].
 @ProviderFor(AppUploader)
