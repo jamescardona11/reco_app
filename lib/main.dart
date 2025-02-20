@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'views/audio_recorder_view.dart';
+import 'ui/views/recorder/audio_recorder_view.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));

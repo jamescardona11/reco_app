@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audio_recorder_app/domain/models/audio_record.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,21 +12,27 @@ class AppPlayer extends _$AppPlayer {
   StreamSubscription? _subscription;
 
   @override
-  String? build() {
+  AudioRecord? build() {
     _initSubscription();
     ref.onDispose(_dispose);
 
     return null;
   }
 
-  Future<void> playAudio(String filePath) async {
+  Future<void> playAudio(AudioRecord audioRecord) async {
     await _audioPlayer.stop();
 
-    if (state == filePath) {
+    if (state == audioRecord) {
       state = null;
     } else {
-      await _audioPlayer.play(DeviceFileSource(filePath));
-      state = filePath;
+      final source = audioRecord.fileUrl != null && audioRecord.downloadFilePath == null
+          ? UrlSource(audioRecord.fileUrl!)
+          : audioRecord.downloadFilePath == null
+              ? DeviceFileSource(audioRecord.originalFilePath)
+              : DeviceFileSource(audioRecord.downloadFilePath!);
+
+      await _audioPlayer.play(source);
+      state = audioRecord;
     }
   }
 

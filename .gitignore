@@ -55,7 +55,7 @@ assets/cfg/_dev_app_settings.json
 
 .env
 .env.**
-env.**.g.**
+env.g.dart
 
 .fvm
 notes.md
@@ -66,6 +66,8 @@ windows/**
 web/**
 android/**
 ios/**
+
+credentials.json
 
 
 .vscode/breakpoints/
