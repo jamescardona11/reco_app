@@ -1,6 +1,7 @@
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
 import 'package:audio_recorder_app/provider/player/app_player.dart';
 import 'package:audio_recorder_app/provider/uploader/app_uploader.dart';
+import 'package:audio_recorder_app/ui/views/uploader_state/uploader_bottom_sheet.dart';
 import 'package:audio_recorder_app/ui/widgets/audio_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,11 +10,11 @@ class AudioListWidget extends ConsumerWidget {
   const AudioListWidget({
     super.key,
     required this.recordings,
-    this.showUploadingState = true,
+    this.enableTaps = true,
   });
 
   final List<AudioRecord> recordings;
-  final bool showUploadingState;
+  final bool enableTaps;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPlayingAudio = ref.watch(appPlayerProvider);
@@ -57,7 +58,7 @@ class AudioListWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         final record = recordings[index];
         final isPlaying = currentPlayingAudio?.id == record.id;
-        final uploadingState = showUploadingState ? uploaderState.audioRecords[record.id] : null;
+        final uploadingState = uploaderState.audioRecords[record.id];
 
         return AudioItemWidget(
           record: record,
@@ -65,10 +66,30 @@ class AudioListWidget extends ConsumerWidget {
           index: index,
           isInProgress: uploadingState?.isInProgress,
           onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record),
-          onUpload: () => ref.read(appUploaderProvider.notifier).upload(record),
-          onDownload: () => ref.read(appUploaderProvider.notifier).download(record),
+          onUpload: enableTaps
+              ? () {
+                  ref.read(appUploaderProvider.notifier).upload(record);
+
+                  _showUploadingBottomSheet(context);
+                }
+              : null,
+          onDownload: enableTaps
+              ? () {
+                  ref.read(appUploaderProvider.notifier).download(record);
+
+                  _showUploadingBottomSheet(context);
+                }
+              : null,
         );
       },
+    );
+  }
+
+  void _showUploadingBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const UploaderBottomSheet(),
     );
   }
 }

@@ -10,7 +10,7 @@ class UploaderBottomSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uploaderState = ref.watch(appUploaderProvider);
     final isUploading = uploaderState.isUploadingInProgress;
-    final audioRecords = uploaderState.recordings;
+    final audioRecords = uploaderState.inProgressRecordings;
 
     return Container(
       decoration: const BoxDecoration(
@@ -77,7 +77,7 @@ class UploaderBottomSheet extends ConsumerWidget {
             Expanded(
               child: AudioListWidget(
                 recordings: audioRecords,
-                showUploadingState: true,
+                enableTaps: false,
               ),
             ),
 

@@ -25,7 +25,7 @@ class RecorderAppBar extends ConsumerWidget implements PreferredSizeWidget {
             IconButton(
               icon: const Icon(Icons.cloud_upload_outlined),
               onPressed: () {
-                _showUploadingBottomSheet(context, ref);
+                _showUploadingBottomSheet(context);
               },
               tooltip: 'Show uploading recordings',
             ),
@@ -64,7 +64,7 @@ class RecorderAppBar extends ConsumerWidget implements PreferredSizeWidget {
     );
   }
 
-  void _showUploadingBottomSheet(BuildContext context, WidgetRef ref) {
+  void _showUploadingBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,

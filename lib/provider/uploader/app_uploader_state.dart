@@ -16,6 +16,8 @@ class AppUploaderState {
 
   List<AudioRecord> get recordings => audioRecords.values.map((e) => e.audioRecord).toList();
 
+  List<AudioRecord> get inProgressRecordings => audioRecords.values.where((e) => e.isInProgress).map((e) => e.audioRecord).toList();
+
   AppUploaderState copyWith({
     Map<String, AudioRecordUploadState>? audioRecords,
     bool? isInProgress,
