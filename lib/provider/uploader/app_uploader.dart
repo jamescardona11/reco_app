@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audio_recorder_app/config/di.dart';
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
-import 'package:audio_recorder_app/domain/models/uploading_state.dart';
 import 'package:audio_recorder_app/domain/types/json_type.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,10 +29,10 @@ class AppUploader extends _$AppUploader {
         ...state.audioRecords,
         audioRecord.id: AudioRecordUploadState(
           audioRecord: audioRecord,
-          uploadingState: UploadingState.uploading,
+          isInProgress: true,
         ),
       },
-      isUploadingInProgress: true,
+      isInProgress: true,
     );
 
     final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
@@ -50,10 +49,10 @@ class AppUploader extends _$AppUploader {
           ...state.audioRecords,
           audioRecord.id: AudioRecordUploadState(
             audioRecord: audioRecord,
-            uploadingState: UploadingState.completed,
+            isInProgress: false,
           ),
         },
-        isUploadingInProgress: false,
+        isInProgress: false,
       );
     } else {
       state = state.copyWith(
@@ -61,17 +60,28 @@ class AppUploader extends _$AppUploader {
           ...state.audioRecords,
           audioRecord.id: AudioRecordUploadState(
             audioRecord: audioRecord,
-            uploadingState: UploadingState.error,
+            isInProgress: false,
             error: response.appError,
           ),
         },
-        isUploadingInProgress: false,
+        isInProgress: false,
       );
     }
   }
 
   Future<void> download(AudioRecord audioRecord) async {
     if (audioRecord.downloadUrl == null) return;
+
+    state = state.copyWith(
+      audioRecords: {
+        ...state.audioRecords,
+        audioRecord.id: AudioRecordUploadState(
+          audioRecord: audioRecord,
+          isInProgress: true,
+        ),
+      },
+      isInProgress: true,
+    );
 
     final cloudRepository = ref.read(cloudUploaderRepositoryProvider);
     final response = await cloudRepository.download(audioRecord);
@@ -81,6 +91,29 @@ class AppUploader extends _$AppUploader {
 
       final audioRecord = response.asOk.value;
       await appDatabase.upsert(id: audioRecord.id, data: audioRecord.toJson());
+
+      state = state.copyWith(
+        audioRecords: {
+          ...state.audioRecords,
+          audioRecord.id: AudioRecordUploadState(
+            audioRecord: audioRecord,
+            isInProgress: false,
+          ),
+        },
+        isInProgress: false,
+      );
+    } else {
+      state = state.copyWith(
+        audioRecords: {
+          ...state.audioRecords,
+          audioRecord.id: AudioRecordUploadState(
+            audioRecord: audioRecord,
+            isInProgress: false,
+            error: response.appError,
+          ),
+        },
+        isInProgress: false,
+      );
     }
   }
 }

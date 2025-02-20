@@ -9,7 +9,7 @@ class AudioListWidget extends ConsumerWidget {
   const AudioListWidget({
     super.key,
     required this.recordings,
-    this.showUploadingState = false,
+    this.showUploadingState = true,
   });
 
   final List<AudioRecord> recordings;
@@ -63,7 +63,7 @@ class AudioListWidget extends ConsumerWidget {
           record: record,
           isPlaying: isPlaying,
           index: index,
-          uploadingState: uploadingState?.uploadingState,
+          isInProgress: uploadingState?.isInProgress,
           onPlay: () => ref.read(appPlayerProvider.notifier).playAudio(record),
           onUpload: () => ref.read(appUploaderProvider.notifier).upload(record),
           onDownload: () => ref.read(appUploaderProvider.notifier).download(record),

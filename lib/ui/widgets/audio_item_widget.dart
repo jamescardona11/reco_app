@@ -1,5 +1,4 @@
 import 'package:audio_recorder_app/domain/models/audio_record.dart';
-import 'package:audio_recorder_app/domain/models/uploading_state.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,7 +6,7 @@ class AudioItemWidget extends StatelessWidget {
   const AudioItemWidget({
     super.key,
     required this.record,
-    this.uploadingState,
+    this.isInProgress,
     required this.isPlaying,
     required this.onPlay,
     required this.index,
@@ -16,7 +15,7 @@ class AudioItemWidget extends StatelessWidget {
   });
 
   final AudioRecord record;
-  final UploadingState? uploadingState;
+  final bool? isInProgress;
   final int index;
   final bool isPlaying;
   final VoidCallback onPlay;
@@ -96,18 +95,8 @@ class AudioItemWidget extends StatelessWidget {
                 ],
               ),
             ),
-            if (uploadingState != null) ...[
-              if (uploadingState!.isUploading) const CircularProgressIndicator(),
-              if (uploadingState!.isError)
-                IconButton(
-                  icon: const Icon(Icons.error_outline_rounded),
-                  onPressed: onUpload,
-                ),
-              if (uploadingState!.isCompleted)
-                IconButton(
-                  icon: const Icon(Icons.check_circle_rounded),
-                  onPressed: onUpload,
-                ),
+            if (isInProgress == true) ...[
+              const SizedBox(width: 24, height: 24, child: CircularProgressIndicator()),
             ] else ...[
               Row(
                 children: [
