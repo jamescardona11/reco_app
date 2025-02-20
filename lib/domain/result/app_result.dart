@@ -32,6 +32,8 @@ sealed class AppResult<T> {
   /// Convenience method to cast to Error
   Error get asError => this as Error<T>;
 
+  AppError get appError => asError.error;
+
   /// Returns a nullable value if the result is Ok
   bool get isError => this is Error;
 

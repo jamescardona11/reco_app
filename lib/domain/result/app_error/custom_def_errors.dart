@@ -9,16 +9,12 @@ final class FetchingDataError extends AppError {
   const FetchingDataError(super.message, {this.code});
 }
 
+final class UploadingDataError extends AppError {
+  const UploadingDataError() : super('Uploading Data Error');
+}
+
 final class UpsertError extends AppError {
   const UpsertError() : super('Upsert Error');
-}
-
-final class ValueError extends AppError {
-  const ValueError() : super('Encountered a Unexpected Value');
-}
-
-final class PureException extends AppError {
-  const PureException(Exception exception) : super('Pure Exception', error: exception);
 }
 
 final class PermissionDeniedError extends AppError {
