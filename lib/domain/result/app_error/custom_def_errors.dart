@@ -20,3 +20,7 @@ final class ValueError extends AppError {
 final class PureException extends AppError {
   const PureException(Exception exception) : super('Pure Exception', error: exception);
 }
+
+final class PermissionDeniedError extends AppError {
+  const PermissionDeniedError() : super('Permission Denied');
+}

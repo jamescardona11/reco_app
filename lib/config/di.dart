@@ -19,10 +19,10 @@ AppDatabase appDatabase(ref) {
   return MockAppDatabaseImpl();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 AudioRecorderRepository audioRecorderRepository(ref) {
   final appDatabase = ref.watch(appDatabaseProvider);
   final audioRecorderRepository = AudioRecorderRepositoryImpl(appDatabase);
-  // audioRecorderRepository.init();
+  audioRecorderRepository.init();
   return audioRecorderRepository;
 }

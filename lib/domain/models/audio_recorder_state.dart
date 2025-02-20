@@ -1,11 +1,11 @@
 enum AudioRecorderState {
+  idle,
   recording,
-  stopped,
-  paused,
-  playing;
+  error,
+  stopped;
 
+  bool get isIdle => this == idle;
   bool get isRecording => this == recording;
+  bool get isError => this == error;
   bool get isStopped => this == stopped;
-  bool get isPaused => this == paused;
-  bool get isPlaying => this == playing;
 }
