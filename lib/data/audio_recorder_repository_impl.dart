@@ -25,7 +25,7 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
   @override
   Future<void> init() async {
     final directory = await getApplicationDocumentsDirectory();
-    _pathFile = '${directory.path}/recordings/';
+    _pathFile = '${directory.path}/recordings';
   }
 
   @override
@@ -47,7 +47,8 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
       await _audioRecorder.stop();
 
       final file = File(_pathFromCurrentId);
-      if (await file.exists()) {
+      final exists = await file.exists();
+      if (exists) {
         final newRecord = AudioRecord(
           id: _currentId!,
           filePath: _pathFromCurrentId,
@@ -56,11 +57,12 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
 
         await _appDatabase.upsert(id: newRecord.id, data: newRecord.toJson());
       }
+      _recordingState.add(AudioRecorderState.idle);
     } catch (e) {
+      _recordingState.add(AudioRecorderState.error);
       debugPrint('Error stopping recording: $e');
     } finally {
       _currentId = null;
-      _recordingState.add(AudioRecorderState.idle);
     }
   }
 

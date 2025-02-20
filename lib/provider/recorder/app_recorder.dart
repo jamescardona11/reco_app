@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:audio_recorder_app/config/di.dart';
 import 'package:audio_recorder_app/domain/result/app_error/custom_def_errors.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'app_recorder_state.dart';
@@ -23,9 +22,7 @@ class AppRecorder extends _$AppRecorder {
       _recordingItemsSubscription?.cancel();
     });
 
-    return AppRecorderState(
-      isPermissionGranted: false,
-    );
+    return AppRecorderState();
   }
 
   Future<void> _init() async {
@@ -38,22 +35,17 @@ class AppRecorder extends _$AppRecorder {
     _recordingItemsSubscription = repository.watchRecordings().listen((recordings) {
       state = state.copyWith(recordings: recordings);
     });
-
-    final hasPermission = (await Permission.microphone.status).isGranted;
-    state = state.copyWith(isPermissionGranted: hasPermission);
   }
 
   Future<void> startRecording() async {
-    if (!state.isPermissionGranted) {
-      await _requestPermission();
-    }
+    final repository = ref.read(audioRecorderRepositoryProvider);
 
-    if (!state.isPermissionGranted) {
+    final permission = await repository.hasPermission();
+    if (!permission) {
       state = state.copyWith(error: const PermissionDeniedError());
       return;
     }
 
-    final repository = ref.read(audioRecorderRepositoryProvider);
     await repository.startRecording();
   }
 
@@ -65,11 +57,5 @@ class AppRecorder extends _$AppRecorder {
   Future<void> deleteRecording(String id) async {
     final repository = ref.read(audioRecorderRepositoryProvider);
     await repository.deleteRecording(id);
-  }
-
-  Future<void> _requestPermission() async {
-    await Permission.microphone.request();
-    final hasPermission = await ref.read(audioRecorderRepositoryProvider).hasPermission();
-    state = state.copyWith(isPermissionGranted: hasPermission);
   }
 }
