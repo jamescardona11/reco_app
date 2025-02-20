@@ -31,7 +31,9 @@ class AudioRecorderRepositoryImpl implements AudioRecorderRepository {
   @override
   Future<void> startRecording() async {
     if (_recordingState.value.isIdle) {
+      _recordingState.add(AudioRecorderState.recording);
       _currentId = Uuid().v4();
+
       await _audioRecorder.start(RecordConfig(), path: _pathFromCurrentId);
     }
   }
