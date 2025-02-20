@@ -77,7 +77,7 @@ class CloudUploaderRepositoryImpl implements CloudUploaderRepository {
         final file = File('$_pathFile/$newName');
         await file.writeAsBytes(response.bodyBytes);
 
-        return AppResult.ok(audioRecord.copyWith(downloadFilePath: newName));
+        return AppResult.ok(audioRecord.copyWith(downloadFilePath: '$_pathFile/$newName'));
       } else {
         return AppResult.error(DownloadingDataError());
       }

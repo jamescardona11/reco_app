@@ -15,7 +15,7 @@ class PlayingFrom extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final isCloudPlayback = currentPlayingAudio.fileUrl != null;
+    final isCloudPlayback = currentPlayingAudio.fileUrl != null && currentPlayingAudio.downloadFilePath == null;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -38,7 +38,11 @@ class PlayingFrom extends ConsumerWidget {
             const SizedBox(width: 8),
             // Source text
             Text(
-              isCloudPlayback ? 'Playing from Cloud' : 'Playing from Device',
+              isCloudPlayback
+                  ? 'Playing from Cloud'
+                  : currentPlayingAudio.downloadFilePath == null
+                      ? 'Playing from Local - Original'
+                      : 'Playing from Local - Download',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
