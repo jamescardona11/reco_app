@@ -25,7 +25,11 @@ class AppPlayer extends _$AppPlayer {
     if (state == audioRecord) {
       state = null;
     } else {
-      final source = audioRecord.fileUrl != null ? UrlSource(audioRecord.fileUrl!) : DeviceFileSource(audioRecord.filePath);
+      final source = audioRecord.fileUrl != null && audioRecord.downloadFilePath == null
+          ? UrlSource(audioRecord.fileUrl!)
+          : audioRecord.downloadFilePath == null
+              ? DeviceFileSource(audioRecord.originalFilePath)
+              : DeviceFileSource(audioRecord.downloadFilePath!);
 
       await _audioPlayer.play(source);
       state = audioRecord;
